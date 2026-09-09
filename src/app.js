@@ -7,7 +7,7 @@ export function createApp() {
   const app = express();
   app.get('/health', healthHandler);
   app.get('/', (req, res) => {
-    res.send('Welcome to the API');
+    res.send('Bem vindo a API');
   });
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
   app.get('/api-docs.json', (req, res) => {
