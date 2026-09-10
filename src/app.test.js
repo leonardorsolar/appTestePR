@@ -32,12 +32,12 @@ describe('GET /api-docs.json', () => {
     expect(response.body.paths['/health']).toBeDefined();
   });
 
-  it('lista exatamente os endpoints reais, nenhum endpoint falso (IT-003)', async () => {
+  it('lista exatamente os endpoints reais, nenhum endpoint falso (IT-010)', async () => {
     const app = createApp();
 
     const response = await request(app).get('/api-docs.json');
 
-    expect(Object.keys(response.body.paths)).toEqual(['/health']);
+    expect(Object.keys(response.body.paths)).toEqual(['/users', '/health']);
   });
 
   it('documenta a resposta 200 de /health com o corpo { status: "ok" } (IT-004)', async () => {
@@ -77,10 +77,44 @@ describe('GET /api-docs.json', () => {
     expect(response.headers['content-type']).toMatch(/application\/json/);
     expect(response.body.paths['/health']).toBeDefined();
   });
+
+  it('documenta /users com resposta 200 e exemplo de array de usuários (IT-009)', async () => {
+    const app = createApp();
+
+    const response = await request(app).get('/api-docs.json');
+
+    const usersPath = response.body.paths['/users'];
+    expect(usersPath).toBeDefined();
+    const okResponse = usersPath.get.responses['200'];
+    expect(okResponse).toBeDefined();
+    const example = okResponse.content['application/json'].example;
+    expect(example).toEqual([
+      { id: 1, nome: 'Ana Silva', email: 'ana.silva@example.com' },
+      { id: 2, nome: 'Bruno Costa', email: 'bruno.costa@example.com' },
+      { id: 3, nome: 'Carla Souza', email: 'carla.souza@example.com' },
+    ]);
+  });
+
+  it('documenta apenas a resposta 200 para /users, sem erros inventados (IT-011)', async () => {
+    const app = createApp();
+
+    const response = await request(app).get('/api-docs.json');
+
+    expect(Object.keys(response.body.paths['/users'].get.responses)).toEqual(['200']);
+  });
 });
 
 describe('GET /health (regressão pós rotas de documentação)', () => {
   it('continua respondendo 200 com { status: "ok" } (IT-008)', async () => {
+    const app = createApp();
+
+    const response = await request(app).get('/health');
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({ status: 'ok' });
+  });
+
+  it('continua respondendo 200 com { status: "ok" } após o registro de /users (IT-012)', async () => {
     const app = createApp();
 
     const response = await request(app).get('/health');

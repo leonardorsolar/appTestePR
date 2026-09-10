@@ -1,11 +1,13 @@
 import express from 'express';
 import swaggerUi from 'swagger-ui-express';
 import { healthHandler } from './routes/health.js';
+import { usersHandler } from './routes/users.js';
 import { swaggerSpec } from './docs/swaggerSpec.js';
 
 export function createApp() {
   const app = express();
   app.get('/health', healthHandler);
+  app.get('/users', usersHandler);
   app.get('/', (req, res) => {
     res.send('Bem vindo a API');
   });
