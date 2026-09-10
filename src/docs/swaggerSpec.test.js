@@ -26,7 +26,7 @@ describe('buildSwaggerSpec', () => {
     const spec = buildSwaggerSpec();
 
     expect(spec.paths['/rota-inexistente']).toBeUndefined();
-    expect(Object.keys(spec.paths)).toEqual(['/health']);
+    expect(Object.keys(spec.paths)).toEqual(['/users', '/health']);
   });
 
   it('produz o mesmo conteúdo em chamadas repetidas (UT-005)', () => {

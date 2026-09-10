@@ -59,39 +59,47 @@ Track each step as a task in the runtime's task tracker when one is available, a
    - If `_idea.md` exists there, read it as primary context.
    - If `_prd.md` exists, read it and operate in update mode.
 
-2. Discover context through two parallel research tracks. Both MUST finish before any question is asked; run them in parallel (e.g., two Agent tool calls).
-   - Track A — Codebase: search for files, patterns, data models, and integration points related to the request; summarize in 3-5 bullets.
-   - Track B — Market: perform 3-5 web searches on trends, competing products, and user expectations; summarize in 3-5 bullets. If web search tools are unavailable, note the limitation and proceed with Track A only.
+2. Classificar a complexidade da feature (gate de complexidade).
+   - **Trivial**: CRUD simples de leitura/escrita, sem regra de negócio nova, sem decisão arquitetural e sem conceito de domínio novo — ex.: endpoint que apenas lê ou grava um registro existente, sem lógica adicional.
+   - **Padrão**: qualquer coisa que não se encaixe integralmente nos critérios de Trivial acima — o pipeline completo descrito nos passos seguintes. Em caso de dúvida entre Trivial e Padrão, classifique como Padrão.
+   - Essa classificação só ajusta a profundidade da pesquisa (passo 3) e o formato do ADR (passo 5), ambos marcados abaixo com **[Trivial]**. Ela não afeta o pacote de artefatos gerado — PRD, User Stories, ADR e Board continuam todos obrigatórios — nem a etapa de perguntas (passo 4), que permanece obrigatória mesmo em features triviais.
+
+3. Discover context through two parallel research tracks. Both MUST finish before any question is asked; run them in parallel (e.g., two Agent tool calls).
+   - Track A — Codebase: search for files, patterns, data models, and integration points related to the request; summarize in 3-5 bullets. **[Trivial]** Substitua o sweep completo por uma única busca direcionada ao registro/endpoint em questão.
+   - Track B — Market: perform 3-5 web searches on trends, competing products, and user expectations; summarize in 3-5 bullets. If web search tools are unavailable, note the limitation and proceed with Track A only. **[Trivial]** Pule esta trilha inteiramente.
    - Present the merged findings from both tracks to the user before moving to questions.
 
-3. Grill the requirements.
+4. Grill the requirements.
    - Read `references/question-protocol.md` and apply its Grilling Method through its phases, resolving the load-bearing product decisions branch by branch.
    - Done when every branch that shapes the PRD is resolved or explicitly parked for Open Questions — the question count is an output of the decision tree, not a budget.
+   - Obrigatório independentemente da classificação do passo 2 — nunca pule ou reduza esta etapa para features triviais.
 
-4. Decide the product approach and record ADRs.
+5. Decide the product approach and record ADRs.
    - Choose the strongest direction yourself from the answers and research.
-   - Read `references/adr-template.md`, determine the next number from the files in `.aes/tasks/<slug>/adrs/`, fill the template (chosen direction as Decisão, weighed alternatives with trade-offs as Alternativas Consideradas, outcomes as Consequências; Status "Aceita", Date today), and write `adrs/adr-NNN.md` (zero-padded 3-digit number).
+   - Read `references/adr-template.md`, determine the next number from the files in `.aes/tasks/<slug>/adrs/`, fill the template (chosen direction as Decisão, weighed alternatives with trade-offs as Alternativas Consideradas, outcomes as Consequências; Status "Aceita", Date today), and write `adrs/adr-NNN.md` (zero-padded 3-digit number). **[Trivial]** Em vez do template completo, escreva apenas uma nota de uma linha em `adrs/adr-NNN.md` registrando "sem trade-off arquitetural relevante — decisão trivial" seguida da decisão tomada. Não pule o ADR — apenas reduza seu formato.
    - Record any additional significant scope decision that surfaced during clarification as its own ADR.
 
-5. Write the user-story catalog.
+6. Write the user-story catalog.
    - Read `references/user-stories-template.md` and write `.aes/tasks/<slug>/_user_stories.md`.
+   - Comece pela tabela-resumo (obrigatória, ver template) antes do detalhamento completo de cada story.
    - Cover every persona — secondary ones included — and every core feature.
    - Run the template's edge-case sweep against every story.
    - Done when every core feature has stories, every story has verifiable acceptance criteria plus edge cases with expected behavior, and every edge-case class has been probed against every story.
 
-6. Write the PRD.
+7. Write the PRD.
    - Read `references/prd-template.md` and fill every section with the decided direction and confirmed answers; the template carries the per-section rules.
+   - Comece pela seção `## Resumo` (obrigatória, ver template), logo após o título e antes do restante do conteúdo.
    - List every ADR from this session in the Registro de Decisões de Produto section.
    - Prefer active voice and definite, specific language; every sentence earns its place. Language: Portuguese (Brazil).
    - Self-check before writing the file: no core feature or story left without a home in a PRD section, no domain term left undefined, every Non-Goal traceable to a decision the user actually made in this conversation — not an assumption.
    - Write `.aes/tasks/<slug>/_prd.md`.
 
-7. Generate the visual board.
+8. Generate the visual board.
    - Automatically invoke `aes-create-excalidraw` for the same `<slug>` — no separate user request needed, this is part of finishing a PRD.
    - It reads the `_prd.md`, `_user_stories.md`, and `adrs/*.md` just written and produces `.aes/tasks/<slug>/diagrams/spec-<slug>.excalidraw`.
    - If it fails or skips frames for missing source data, note that in the handoff — never block the PRD handoff on the board.
 
-8. Hand off.
+9. Hand off.
    - Confirm all file paths to the user (PRD, user stories, ADRs, and the Excalidraw board) and invite change requests directly on the generated files.
    - Point to `aes-create-techspec` as the next step.
 

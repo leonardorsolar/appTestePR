@@ -15,6 +15,12 @@ Estrutura para `_user_stories.md` — o catálogo canônico de user stories que 
 Catálogo canônico de comportamento para [funcionalidade]. Complementa `_prd.md`; consumido por
 `_techspec.md` (mapeamento de componentes) e `_tests.md` (matriz de cobertura).
 
+## Resumo
+
+| Story                   | Critério de Aceite Principal              |
+| ------------------------ | ------------------------------------------ |
+| US-001: [Título curto]  | [AC-1 resumido em uma linha]              |
+
 ## Personas
 
 - **[Nome da persona]** — [quem é, seu contexto, o que precisa desta funcionalidade]
@@ -61,6 +67,7 @@ Teste cada story contra cada classe abaixo e registre cada achado como uma entra
 
 ## Regras de Escrita
 
+- A seção Resumo é obrigatória e vem primeiro, antes de Personas: uma linha por story com seu AC principal condensado. Ela não substitui o Índice de Stories nem o detalhamento completo abaixo — é uma leitura rápida adicional.
 - Descreva o comportamento que o usuário observa, nunca a implementação ("vê o último rascunho salvo", não "lê da tabela de rascunhos").
 - Uma story por capacidade. Dividir mantém os critérios de aceite testáveis; fundir stories para encurtar o catálogo esconde comportamento.
 - Todo AC deve ser verificável contra o produto entregue — alguém consegue marcá-lo como verdadeiro ou falso usando a funcionalidade.

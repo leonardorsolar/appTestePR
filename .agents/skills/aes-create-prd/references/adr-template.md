@@ -1,5 +1,7 @@
 # ADR-XXX: [Título]
 
+**Decisão:** [Uma frase única resumindo o que foi decidido — funciona como o resumo deste ADR.]
+
 ## Status
 
 [Proposta | Aceita | Descontinuada | Substituída pela ADR-XXX]

@@ -4,6 +4,16 @@ Use este template para estruturar todo Documento de Requisitos de Produto. O PRD
 
 Preencha cada seção com base nos resultados do brainstorming. Deixe orientação de placeholder nas seções em que a informação for insuficiente e anote isso em Perguntas em Aberto.
 
+## Resumo
+
+Seção obrigatória, sempre a primeira do documento (mesmo que escrita por último). 3-5 linhas cobrindo:
+
+- O quê: a funcionalidade em uma frase.
+- Para quem: a(s) persona(s) principal(is).
+- Por que agora: o problema ou oportunidade que motiva o esforço neste momento.
+
+Não substitui nenhuma seção abaixo — é uma leitura rápida para quem não vai ler o documento inteiro.
+
 ## Visão Geral
 
 Visão geral de alto nível da funcionalidade ou produto. Descreva:
